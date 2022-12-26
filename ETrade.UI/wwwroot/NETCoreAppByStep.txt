@@ -8,7 +8,7 @@ Solution adına genel bir solution adı verilir.
 	-UI(Core)
 
 3-Solution>Manage Nuget Package a kütüphaneler eklenlenir.
-	-M.EFCore ->Entities
+	-M.EFCore ->
 	-M.EFCore.Tools
 	-M.EFCore.SqlServer
 	-M.AspNetCore.Identity
