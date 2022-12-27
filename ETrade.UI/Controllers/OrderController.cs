@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ETrade.UI.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     public class OrderController : Controller
     {
         private readonly IOrderDAL _IOrderDAL;
@@ -32,31 +32,36 @@ namespace ETrade.UI.Controllers
             var model = new OrderStateViewModel()
             {
                 OrderId = order.Id,
-                OrderNumber= order.OrderNumber,
+                OrderNumber = order.OrderNumber,
                 IsCompleted = false
+            
             };
+            if (order.OrderState == EnumOrderState.Completed)
+            {
+                model.IsCompleted = true;
+            }
             return View(model);
-        }
-        [HttpPost]
-        public IActionResult Edit(OrderStateViewModel model)
-        {
-            var order = _IOrderDAL.Get(model.OrderId);
-            if (model.IsCompleted)
-            {
-                order.OrderState = EnumOrderState.Completed;
-                _IOrderDAL.Update(order);
-            }
-            return RedirectToAction("Index");
-        }
-
-        public IActionResult Delete(int id)
-        {
-            var order = _IOrderDAL.Get(id);
-            if(order != null)
-            {
-                _IOrderDAL.Delete(order);
-            }
-            return RedirectToAction("Index");
-        }
     }
+    [HttpPost]
+    public IActionResult Edit(OrderStateViewModel model)
+    {
+        var order = _IOrderDAL.Get(model.OrderId);
+        if (model.IsCompleted)
+        {
+            order.OrderState = EnumOrderState.Completed;
+            _IOrderDAL.Update(order);
+        }
+        return RedirectToAction("Index");
+    }
+
+    public IActionResult Delete(int id)
+    {
+        var order = _IOrderDAL.Get(id);
+        if (order != null)
+        {
+            _IOrderDAL.Delete(order);
+        }
+        return RedirectToAction("Index");
+    }
+}
 }
