@@ -91,6 +91,7 @@ namespace ETrade.UI.Controllers
             {
                 SaveOrder(Cart, entity);
                 Cart.Clear();
+                SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", Cart);
                 return View("Completed");
             }
             return View(entity);
